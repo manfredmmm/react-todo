@@ -1,4 +1,4 @@
-import {Component} from 'react';
+import {Component, PropTypes} from 'react';
 
 export class TimedButton extends Component {
     constructor(props) {
@@ -27,3 +27,9 @@ export class TimedButton extends Component {
         this.setState({ disabled: true });
     }
 }
+
+TimedButton.propTypes = {
+    time: PropTypes.number.isRequired,
+    onClick: PropTypes.func.isRequired,
+    children: PropTypes.object.isRequired
+};

@@ -4,10 +4,21 @@ import ReactDOM from 'react-dom';
 window.React = React;
 window.ReactDOM = ReactDOM;
 
-import {App} from './app';
+import {TodoApp} from './todo-app';
 
-ReactDOM.render(<App counters={[
-    { title: "Vitories", initialValue: 10 },
-    { title: "Defeats", initialValue: 20 },
-    { title: "Sucks", initialValue: 9000 }
-]} />, document.getElementById('app'));
+const todos = [
+    { id: 1, title: 'Comprar BF1', completed: true },
+    { id: 2, title: 'Arreglar TV', completed: false },
+    { id: 3, title: 'L4D2 party', completed: false }
+];
+
+ReactDOM.render(
+    <TodoApp todos={todos}></TodoApp>,
+    document.getElementById('app'));
+
+/*<App counters={[
+ * { title: "Victories", initialValue: 10 },
+ * { title: "Defeats", initialValue: 20 },
+ * { title: "Sucks", initialValue: 9000 }
+ * ]} />,
+ * */

@@ -1,5 +1,5 @@
 import {Counter} from './counter';
-import {Component} from 'react';
+import {Component, PropTypes} from 'react';
 
 export class App extends Component {
     constructor(props) {
@@ -16,7 +16,7 @@ export class App extends Component {
                 <ul>
                     {
                         counters.map(function (counter, index) {
-                            return <li key={index}>{counter.title}: {counter.value || counter.initialValue}</li>;
+                            return <li key={index}>{counter.title}: {counter.value || counter.initialValue}</li>;
                         })
                     }
 
@@ -26,7 +26,7 @@ export class App extends Component {
                 {
                     counters.map((counter, index) => {
                         return <Counter 
-                            className={index} 
+                            className={index.toString()} 
                             key={index}
                             title={counter.title}
                             initialValue={counter.initialValue}
@@ -47,3 +47,7 @@ export class App extends Component {
         });
     }
 }
+
+App.propTypes = {
+    counters: PropTypes.arrayOf(PropTypes.object)
+};

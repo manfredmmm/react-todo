@@ -1,4 +1,4 @@
-import {Component} from 'react';
+import {Component, PropTypes} from 'react';
 import {TimedButton} from './timed_button';
 
 export class Counter extends Component {
@@ -16,7 +16,7 @@ export class Counter extends Component {
     render() {
         // this.props has all attributes
         const { title } = this.props;
-        const { counter, disabled } = this.state;
+        const { counter } = this.state;
 
         // Arrow function, no perd el context ni this
         return (
@@ -52,4 +52,11 @@ export class Counter extends Component {
         })
         this.props.onCounterUpdate(this.props.initialValue);
     }
+}
+
+Counter.propTypes = {
+    title: PropTypes.string.isRequired,
+    onCounterUpdate: PropTypes.func.isRequired,
+    initialValue: PropTypes.number.isRequired,
+    className: PropTypes.string
 }

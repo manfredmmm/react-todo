@@ -1,1 +1,4 @@
-### Doing a todo app with react
+### Doing a todo app with:
+* React
+* Webpack
+* Yarn + npm

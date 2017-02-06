@@ -1,0 +1,46 @@
+import { Component, PropTypes } from 'react';
+
+import { Counter } from './counter';
+
+export default class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      counters: this.props.counters
+    };
+  }
+
+  render() {
+    const { counters } = this.state;
+    return (
+      <div>
+        <h2>summary</h2>
+        <ul>{counters.map((counter, index) =>
+          <li key={index}>{counter.title}: {counter.value || counter.initialValue}</li>)}</ul>
+        <h2>counters</h2>
+        {counters.map((counter, index) => <Counter
+          className={index.toString()}
+          key={index}
+          title={counter.title}
+          initialValue={counter.initialValue}
+          onCounterUpdate={(value) => { this.updateCounter(index, value); }}
+          >
+        </Counter>)}
+      </div>
+    );
+  }
+
+  updateCounter(index, value) {
+    const { counters } = this.state;
+
+    counters[index].value = value;
+
+    this.setState({
+      counters
+    });
+  }
+}
+
+App.propTypes = {
+  counters: PropTypes.arrayOf(PropTypes.object)
+};

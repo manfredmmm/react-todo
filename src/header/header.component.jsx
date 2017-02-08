@@ -7,13 +7,13 @@ const HeaderComponent = ({ title }) => {
     return (
       <header className={styles.header}>
         <a>Go back</a>
-        <h1>{title}</h1>
+        <h1 className={styles.title}>{title}</h1>
       </header>
     );
   }
   return (
     <header className={styles.header}>
-      <h1>TODO list</h1>
+      <h1 className={styles.title}>TODO list</h1>
     </header>
   );
 };

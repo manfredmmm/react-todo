@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 
 import TodoApp from './todo_app';
 
-import styles from './normalize.css';
+require('./normalize.css');
 
 ReactDOM.render(
   React.createElement(TodoApp),

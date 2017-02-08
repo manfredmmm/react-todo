@@ -28,23 +28,23 @@ const TodoForm = ({ _addTodo }) => {
   );
 };
 
-/*
 TodoForm.propTypes = {
-  addTodo: PropTypes.func
+  _addTodo: PropTypes.func.isRequired
 };
-*/
+
 
 // --------------------------------------------
 // TODO ITEM
 // --------------------------------------------
 const Todo = ({ todo, remove }) => <li onClick={() => { remove(todo.id); }}>{todo.text}</li>;
 
-/*
 Todo.propTypes = {
-  todo: PropTypes.obj.isRequired,
-  remove: PropTypes.func
+  todo: PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    text: PropTypes.string.isRequired
+  }).isRequired,
+  remove: PropTypes.func.isRequired
 };
-*/
 
 // --------------------------------------------
 // TODO LIST
@@ -55,34 +55,44 @@ const TodoList = ({ todos, remove }) => {
   return (<ul>{todoNode}</ul>);
 };
 
-// TodoList.propTypes = {
-//   todos: PropTypes.obj.isRequired,
-//   remove: PropTypes.func
-// };
+TodoList.propTypes = {
+  todos: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      text: PropTypes.string.isRequired
+    })
+  ).isRequired,
+  remove: PropTypes.func.isRequired
+};
 
 // --------------------------------------------
 // APPLICATION
 // --------------------------------------------
 
 const todos = [
-  { id: '0', text: 'todo item 0' },
-  { id: '1', text: 'todo item 1' },
-  { id: '2', text: 'todo item 2' }
+  { id: 0, text: 'todo item 0' },
+  { id: 1, text: 'todo item 1' },
+  { id: 2, text: 'todo item 2' }
 ];
 
 let todoId = 3;
 
 class TodoApp extends Component {
   constructor(props) {
+    // Pass props to parent class
     super(props);
+    // Set initial state
     this.state = {
       data: todos
     };
   }
 
   _addTodo(val) {
+    // New todo values
     const todo = { id: todoId += 1, text: val };
+    // Push new todo to data
     this.state.data.push(todo);
+    // Save this change
     this.setState({ data: this.state.data });
   }
 

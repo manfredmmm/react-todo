@@ -7,31 +7,35 @@ import HeaderComponent from './header/header.component';
 // ---------------------------------------
 // TITLE
 // ---------------------------------------
-const Title = ({ title }) => <div><h1>{title}</h1></div>;
+const Title = ({ title, totalTodos }) => <div><h1>{title} ({totalTodos})</h1></div>;
 
 Title.propTypes = {
-  title: PropTypes.string.isRequired
+  title: PropTypes.string.isRequired,
+  totalTodos: PropTypes.number.isRequired
 };
 
 // ---------------------------------------
 // TODO <form>
 // ---------------------------------------
-const TodoForm = ({ _addTodo }) => {
-  // Input Tracker
+/*
+<fill> onAlgo={(algo) => this.metodedelpare(algo)} />
+ el onAlgo es un prop, que es una funcio
+ i a dintre el fill doncs faras this.onAlgo(algo)
+ i cridara el metode metodedelpare amb el valor de alg
+*/
+const TodoForm = ({ addTodo }) => {
   let input;
-  // Return JSX
   return (
     <div>
       <input ref={(node) => { input = node; }} />
-      <button onClick={() => { _addTodo(input.value); input.value = ''; }}>+</button>
+      <button onClick={() => { addTodo(input.value); input.value = ''; }}>+</button>
     </div>
   );
 };
 
 TodoForm.propTypes = {
-  _addTodo: PropTypes.func.isRequired
+  addTodo: PropTypes.func.isRequired
 };
-
 
 // --------------------------------------------
 // TODO ITEM
@@ -65,6 +69,58 @@ TodoList.propTypes = {
   remove: PropTypes.func.isRequired
 };
 
+class CounterDisplay extends Component {
+  render() {
+    return (
+      <div>
+        <span>{this.props.counter}</span>
+        <button onClick={() => { this.props.onInc('manfred'); }}>+</button>
+        <button onClick={() => { this.props.onDec(); }}>-</button>
+      </div>
+    );
+  }
+}
+
+CounterDisplay.propTypes = {
+  counter: PropTypes.number.isRequired,
+  onInc: PropTypes.func.isRequired,
+  onDec: PropTypes.func.isRequired
+};
+
+class Counter extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { counter: 0 };
+  }
+  _handleIncrement(name) {
+    this.setState({ counter: this.state.counter + 1 });
+    console.log(name);
+  }
+  _handleDecrement() {
+    this.setState({ counter: this.state.counter - 1 });
+  }
+  render() {
+    return (
+      <div>
+        <h2>{this.props.name}</h2>
+        <CounterDisplay
+          counter={this.state.counter}
+          onInc={(name) => this._handleIncrement(name)}
+          onDec={() => this._handleDecrement()}
+        />
+      </div>
+    );
+  }
+}
+
+Counter.propTypes = {
+  name: PropTypes.string.isRequired
+};
+
+Counter.defaultProps = {
+  name: 'Default prop counter'
+};
+
 // --------------------------------------------
 // APPLICATION
 // --------------------------------------------
@@ -87,7 +143,7 @@ class TodoApp extends Component {
     };
   }
 
-  _addTodo(val) {
+  _addNewTodo(val) {
     // New todo values
     const todo = { id: todoId += 1, text: val };
     // Push new todo to data
@@ -110,9 +166,10 @@ class TodoApp extends Component {
     return (
       <div>
         <HeaderComponent />
-        <Title title={'New to-do title'} />
-        <TodoForm _addTodo={this._addTodo.bind(this)} />
+        <Title title={'New to-do title'} totalTodos={this.state.data.length} />
+        <TodoForm addTodo={this._addNewTodo.bind(this)} />
         <TodoList todos={this.state.data} remove={this._handleRemove.bind(this)} />
+        <Counter />
       </div>
     );
   }

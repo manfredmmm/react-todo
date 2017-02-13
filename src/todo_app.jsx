@@ -1,6 +1,16 @@
+// Root imports
 import React, { PropTypes, Component } from 'react';
 
+// External libraries
+import JavascriptTimeAgo from 'javascript-time-ago';
+
+// Components import
 import HeaderComponent from './header/header.component';
+
+// Setup
+JavascriptTimeAgo.locale(require('javascript-time-ago/locales/en'));
+require('javascript-time-ago/intl-messageformat-global');
+require('intl-messageformat/dist/locale-data/en');
 
 // ---------------------------------------
 // TODO <form>
@@ -40,7 +50,7 @@ Todo.propTypes = {
     name: PropTypes.string.isRequired,
     description: PropTypes.string,
     status: PropTypes.string.isRequired,
-    date: PropTypes.obj
+    date: PropTypes.string
   }).isRequired,
   remove: PropTypes.func.isRequired,
   completed: PropTypes.func.isRequired
@@ -76,7 +86,7 @@ TodoList.propTypes = {
       id: PropTypes.number.isRequired,
       name: PropTypes.string.isRequired,
       description: PropTypes.string,
-      date: PropTypes.obj
+      date: PropTypes.string
     })
   ).isRequired,
   remove: PropTypes.func.isRequired,
@@ -87,6 +97,7 @@ TodoList.propTypes = {
 // --------------------------------------------
 // APPLICATION
 // --------------------------------------------
+const timeAgo = new JavascriptTimeAgo('en-US');
 const TODOS = [
   {
     id: 0,
@@ -95,7 +106,7 @@ const TODOS = [
       'mumblecore iceland stumptown gluten-free marfa. Actually banh mi intelligentsia ' +
       'kogi flexitarian schlitz.',
     status: 'pending',
-    date: new Date()
+    date: timeAgo(new Date(Date.now() - (2 * 60 * 60 * 1000)))
   }, {
     id: 1,
     name: 'todo item 1',
@@ -103,14 +114,14 @@ const TODOS = [
       'Letterpress 3 wolf moon enamel pin farm-to-table umami, direct trade YOLO asymmetrical ' +
       'squid tousled man bun fanny pack irony. ',
     status: 'pending',
-    date: new Date()
+    date: timeAgo(new Date(Date.now() - (24 * 60 * 60 * 1000)))
   }, {
     id: 2,
     name: 'todo item 2',
     description: 'Fanny pack forage disrupt chia celiac fap. Messenger bag tbh roof party crucifix, ' +
       'put a bird on it mixtape craft beer seitan meh chicharrones yr subway tile.',
     status: 'completed',
-    date: new Date()
+    date: timeAgo(new Date())
   }
 ];
 

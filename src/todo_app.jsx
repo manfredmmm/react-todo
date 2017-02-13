@@ -69,58 +69,6 @@ TodoList.propTypes = {
   remove: PropTypes.func.isRequired
 };
 
-class CounterDisplay extends Component {
-  render() {
-    return (
-      <div>
-        <span>{this.props.counter}</span>
-        <button onClick={() => { this.props.onInc('manfred'); }}>+</button>
-        <button onClick={() => { this.props.onDec(); }}>-</button>
-      </div>
-    );
-  }
-}
-
-CounterDisplay.propTypes = {
-  counter: PropTypes.number.isRequired,
-  onInc: PropTypes.func.isRequired,
-  onDec: PropTypes.func.isRequired
-};
-
-class Counter extends Component {
-  constructor(props) {
-    super(props);
-    this.state = { counter: 0 };
-  }
-  _handleIncrement(name) {
-    this.setState({ counter: this.state.counter + 1 });
-    console.log(name);
-  }
-  _handleDecrement() {
-    this.setState({ counter: this.state.counter - 1 });
-  }
-  render() {
-    return (
-      <div>
-        <h2>{this.props.name}</h2>
-        <CounterDisplay
-          counter={this.state.counter}
-          onInc={(name) => this._handleIncrement(name)}
-          onDec={() => this._handleDecrement()}
-        />
-      </div>
-    );
-  }
-}
-
-Counter.propTypes = {
-  name: PropTypes.string.isRequired
-};
-
-Counter.defaultProps = {
-  name: 'Default prop counter'
-};
-
 // --------------------------------------------
 // APPLICATION
 // --------------------------------------------

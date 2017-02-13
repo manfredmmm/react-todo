@@ -2,24 +2,19 @@ import React, { PropTypes } from 'react';
 
 import styles from './header.css';
 
-const HeaderComponent = ({ title }) => {
-  if (title) {
-    return (
-      <header className={styles.header}>
-        <a>Go back</a>
-        <h1 className={styles.title}>{title}</h1>
-      </header>
-    );
-  }
-  return (
-    <header className={styles.header}>
-      <h1 className={styles.title}>TODO list</h1>
-    </header>
-  );
-};
+const HeaderComponent = ({ title, totalTodos }) => (
+  <header className={styles.header}>
+    <h1 className={styles.title}>{title} ({totalTodos})</h1>
+  </header>
+);
 
 HeaderComponent.propTypes = {
-  title: PropTypes.string
+  title: PropTypes.string,
+  totalTodos: PropTypes.number.isRequired
+};
+
+HeaderComponent.defaultProps = {
+  title: 'TODO list'
 };
 
 export default HeaderComponent;

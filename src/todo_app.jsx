@@ -17,12 +17,6 @@ Title.propTypes = {
 // ---------------------------------------
 // TODO <form>
 // ---------------------------------------
-/*
-<fill> onAlgo={(algo) => this.metodedelpare(algo)} />
- el onAlgo es un prop, que es una funcio
- i a dintre el fill doncs faras this.onAlgo(algo)
- i cridara el metode metodedelpare amb el valor de alg
-*/
 const TodoForm = ({ addTodo }) => {
   let input;
   return (
@@ -40,12 +34,19 @@ TodoForm.propTypes = {
 // --------------------------------------------
 // TODO ITEM
 // --------------------------------------------
-const Todo = ({ todo, remove }) => <li onClick={() => { remove(todo.id); }}>{todo.text}</li>;
+const Todo = ({ todo, remove }) => (
+  <li key={todo.id}>
+    <h4>{todo.name}</h4>
+    <p>{todo.description}</p>
+    <button onClick={() => remove(todo.id)}>Delete</button>
+  </li>
+);
 
 Todo.propTypes = {
   todo: PropTypes.shape({
     id: PropTypes.number.isRequired,
-    text: PropTypes.string.isRequired
+    name: PropTypes.string.isRequired,
+    description: PropTypes.string
   }).isRequired,
   remove: PropTypes.func.isRequired
 };
@@ -63,7 +64,7 @@ TodoList.propTypes = {
   todos: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.number.isRequired,
-      text: PropTypes.string.isRequired
+      name: PropTypes.string.isRequired
     })
   ).isRequired,
   remove: PropTypes.func.isRequired
@@ -74,9 +75,27 @@ TodoList.propTypes = {
 // --------------------------------------------
 
 const todos = [
-  { id: 0, text: 'todo item 0' },
-  { id: 1, text: 'todo item 1' },
-  { id: 2, text: 'todo item 2' }
+  {
+    id: 0,
+    name: 'todo item 0',
+    description: 'Gochujang chambray shabby chic dreamcatcher put a bird on it, ' +
+      'mumblecore iceland stumptown gluten-free marfa. Actually banh mi intelligentsia ' +
+      'kogi flexitarian schlitz.',
+    status: 'pending'
+  }, {
+    id: 1,
+    name: 'todo item 1',
+    description: ' Flexitarian slow-carb fap locavore stumptown. ' +
+      'Letterpress 3 wolf moon enamel pin farm-to-table umami, direct trade YOLO asymmetrical ' +
+      'squid tousled man bun fanny pack irony. ',
+    status: 'pending'
+  }, {
+    id: 2,
+    name: 'todo item 2',
+    description: 'Fanny pack forage disrupt chia celiac fap. Messenger bag tbh roof party crucifix, ' +
+      'put a bird on it mixtape craft beer seitan meh chicharrones yr subway tile.',
+    status: 'completed'
+  }
 ];
 
 let todoId = 3;
@@ -91,9 +110,9 @@ class TodoApp extends Component {
     };
   }
 
-  _addNewTodo(val) {
+  _addNewTodo(value) {
     // New todo values
-    const todo = { id: todoId += 1, text: val };
+    const todo = { id: todoId += 1, name: value, status: 'pending' };
     // Push new todo to data
     this.state.data.push(todo);
     // Save this change
@@ -113,11 +132,9 @@ class TodoApp extends Component {
   render() {
     return (
       <div>
-        <HeaderComponent />
-        <Title title={'New to-do title'} totalTodos={this.state.data.length} />
-        <TodoForm addTodo={this._addNewTodo.bind(this)} />
-        <TodoList todos={this.state.data} remove={this._handleRemove.bind(this)} />
-        <Counter />
+        <HeaderComponent totalTodos={this.state.data.length} />
+        <TodoForm addTodo={value => this._addNewTodo(value)} />
+        <TodoList todos={this.state.data} remove={id => this._handleRemove(id)} />
       </div>
     );
   }

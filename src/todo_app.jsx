@@ -1,16 +1,8 @@
 // Root imports
 import React, { PropTypes, Component } from 'react';
 
-// External libraries
-// import JavascriptTimeAgo from 'javascript-time-ago';
-
 // Components import
 import HeaderComponent from './header/header.component';
-
-// Setup
-// JavascriptTimeAgo.locale(require('javascript-time-ago/locales/en'));
-// require('javascript-time-ago/intl-messageformat-global');
-// require('intl-messageformat/dist/locale-data/en');
 
 // ---------------------------------------
 // TODO <form>
@@ -20,7 +12,7 @@ const TodoForm = ({ addTodo }) => {
   return (
     <div>
       <label htmlFor="todoFormInput">New todo: </label>
-      <input id="todoFormInput" ref={(node) => { input = node; }} />
+      <input id="todoFormInput" required ref={(node) => { input = node; }} />
       <button onClick={() => { addTodo(input.value); input.value = ''; }}>Create</button>
     </div>
   );
@@ -97,8 +89,7 @@ TodoList.propTypes = {
 // --------------------------------------------
 // APPLICATION
 // --------------------------------------------
-// const timeAgo = new JavascriptTimeAgo('en-US');
-const formatDate = (date) => { date.toLocaleDateString(); };
+const formatDate = date => `${date}`;
 const TODOS = [
   {
     id: 0,
@@ -144,7 +135,7 @@ class TodoApp extends Component {
       id: this.state.todoId += 1,
       name: value,
       status: STATUS.pending,
-      date: new Date()
+      date: formatDate(new Date())
     };
     // Push new todo to data
     this.state.data.push(newTodo);

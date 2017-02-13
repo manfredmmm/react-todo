@@ -3,17 +3,6 @@ import React, { PropTypes, Component } from 'react';
 import HeaderComponent from './header/header.component';
 // import TodoList from './todo_list.component';
 
-
-// ---------------------------------------
-// TITLE
-// ---------------------------------------
-const Title = ({ title, totalTodos }) => <div><h1>{title} ({totalTodos})</h1></div>;
-
-Title.propTypes = {
-  title: PropTypes.string.isRequired,
-  totalTodos: PropTypes.number.isRequired
-};
-
 // ---------------------------------------
 // TODO <form>
 // ---------------------------------------
@@ -34,11 +23,13 @@ TodoForm.propTypes = {
 // --------------------------------------------
 // TODO ITEM
 // --------------------------------------------
-const Todo = ({ todo, remove }) => (
-  <li key={todo.id}>
+const Todo = ({ todo, remove, completed }) => (
+  <li>
     <h4>{todo.name}</h4>
     <p>{todo.description}</p>
+    <p>{todo.status}</p>
     <button onClick={() => remove(todo.id)}>Delete</button>
+    <button onClick={() => completed(todo.id)}>Completed</button>
   </li>
 );
 
@@ -46,17 +37,21 @@ Todo.propTypes = {
   todo: PropTypes.shape({
     id: PropTypes.number.isRequired,
     name: PropTypes.string.isRequired,
-    description: PropTypes.string
+    description: PropTypes.string,
+    status: PropTypes.string.isRequired
   }).isRequired,
-  remove: PropTypes.func.isRequired
+  remove: PropTypes.func.isRequired,
+  completed: PropTypes.func.isRequired
 };
 
 // --------------------------------------------
 // TODO LIST
 // --------------------------------------------
-const TodoList = ({ todos, remove }) => {
-  // Map through the todos
-  const todoNode = todos.map(todo => <Todo todo={todo} key={todo.id} remove={remove} />);
+const TodoList = ({ todos, remove, completed, status }) => {
+  const todoNode = todos
+    .filter(todo => todo.status === status)
+    .map(todo => <Todo todo={todo} key={todo.id} remove={remove} completed={completed} />
+  );
   return (<ul>{todoNode}</ul>);
 };
 
@@ -67,7 +62,9 @@ TodoList.propTypes = {
       name: PropTypes.string.isRequired
     })
   ).isRequired,
-  remove: PropTypes.func.isRequired
+  remove: PropTypes.func.isRequired,
+  completed: PropTypes.func.isRequired,
+  status: PropTypes.string.isRequired
 };
 
 // --------------------------------------------
@@ -106,7 +103,8 @@ class TodoApp extends Component {
     super(props);
     // Set initial state
     this.state = {
-      data: todos
+      data: todos,
+      status: 'pending'
     };
   }
 
@@ -120,13 +118,28 @@ class TodoApp extends Component {
   }
 
   _handleRemove(id) {
-    const remainder = this.state.data.filter((todo) => {
-      if (todo.id !== id) {
-        return todo;
-      }
-      return undefined;
-    });
-    this.setState({ data: remainder });
+    const newTodos = this.state.data.filter(todo => todo.id !== id);
+    this.setState({ data: newTodos });
+  }
+
+  _changeStatus(id, status) {
+    const idx = this.state.data.findIndex(todo => todo.id === id);
+    const newTodo = this.state.data[idx];
+    newTodo.status = status;
+    const newTodos = [
+      ...this.state.data.slice(0, idx),
+      newTodo,
+      ...this.state.data.slice(idx + 1)
+    ];
+    this.setState({ data: newTodos });
+  }
+
+  _markAsCompleted(id) {
+    this._changeStatus(id, 'completed');
+  }
+
+  _markAsPending(id) {
+    this._changeStatus(id, 'pending');
   }
 
   render() {
@@ -134,7 +147,13 @@ class TodoApp extends Component {
       <div>
         <HeaderComponent totalTodos={this.state.data.length} />
         <TodoForm addTodo={value => this._addNewTodo(value)} />
-        <TodoList todos={this.state.data} remove={id => this._handleRemove(id)} />
+        <TodoList
+          todos={this.state.data}
+          remove={id => this._handleRemove(id)}
+          completed={id => this._markAsCompleted(id)}
+          pending={id => this._markAsPending(id)}
+          status={this.state.status}
+        />
       </div>
     );
   }

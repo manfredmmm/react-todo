@@ -1,7 +1,6 @@
 import React, { PropTypes, Component } from 'react';
 
 import HeaderComponent from './header/header.component';
-// import TodoList from './todo_list.component';
 
 // ---------------------------------------
 // TODO <form>
@@ -10,8 +9,9 @@ const TodoForm = ({ addTodo }) => {
   let input;
   return (
     <div>
-      <input ref={(node) => { input = node; }} />
-      <button onClick={() => { addTodo(input.value); input.value = ''; }}>+</button>
+      <label htmlFor="todoFormInput">New todo: </label>
+      <input id="todoFormInput" ref={(node) => { input = node; }} />
+      <button onClick={() => { addTodo(input.value); input.value = ''; }}>Create</button>
     </div>
   );
 };
@@ -26,6 +26,7 @@ TodoForm.propTypes = {
 const Todo = ({ todo, remove, completed }) => (
   <li>
     <h4>{todo.name}</h4>
+    <span>{todo.date}</span>
     <p>{todo.description}</p>
     <p>{todo.status}</p>
     <button onClick={() => remove(todo.id)}>Delete</button>
@@ -38,10 +39,25 @@ Todo.propTypes = {
     id: PropTypes.number.isRequired,
     name: PropTypes.string.isRequired,
     description: PropTypes.string,
-    status: PropTypes.string.isRequired
+    status: PropTypes.string.isRequired,
+    date: PropTypes.obj
   }).isRequired,
   remove: PropTypes.func.isRequired,
   completed: PropTypes.func.isRequired
+};
+
+// --------------------------------------------
+// CHANGE LIST FILTER
+// --------------------------------------------
+const ChangeListFilter = ({ status, changeStatusFilter }) => (
+  <button onClick={() => { changeStatusFilter(); }}>
+    Seeing {status} list, change it
+  </button>
+);
+
+ChangeListFilter.propTypes = {
+  status: PropTypes.string.isRequired,
+  changeStatusFilter: PropTypes.func.isRequired
 };
 
 // --------------------------------------------
@@ -50,8 +66,7 @@ Todo.propTypes = {
 const TodoList = ({ todos, remove, completed, status }) => {
   const todoNode = todos
     .filter(todo => todo.status === status)
-    .map(todo => <Todo todo={todo} key={todo.id} remove={remove} completed={completed} />
-  );
+    .map(todo => <Todo todo={todo} key={todo.id} remove={remove} completed={completed} />);
   return (<ul>{todoNode}</ul>);
 };
 
@@ -59,7 +74,9 @@ TodoList.propTypes = {
   todos: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.number.isRequired,
-      name: PropTypes.string.isRequired
+      name: PropTypes.string.isRequired,
+      description: PropTypes.string,
+      date: PropTypes.obj
     })
   ).isRequired,
   remove: PropTypes.func.isRequired,
@@ -70,49 +87,55 @@ TodoList.propTypes = {
 // --------------------------------------------
 // APPLICATION
 // --------------------------------------------
-
-const todos = [
+const TODOS = [
   {
     id: 0,
     name: 'todo item 0',
     description: 'Gochujang chambray shabby chic dreamcatcher put a bird on it, ' +
       'mumblecore iceland stumptown gluten-free marfa. Actually banh mi intelligentsia ' +
       'kogi flexitarian schlitz.',
-    status: 'pending'
+    status: 'pending',
+    date: new Date()
   }, {
     id: 1,
     name: 'todo item 1',
     description: ' Flexitarian slow-carb fap locavore stumptown. ' +
       'Letterpress 3 wolf moon enamel pin farm-to-table umami, direct trade YOLO asymmetrical ' +
       'squid tousled man bun fanny pack irony. ',
-    status: 'pending'
+    status: 'pending',
+    date: new Date()
   }, {
     id: 2,
     name: 'todo item 2',
     description: 'Fanny pack forage disrupt chia celiac fap. Messenger bag tbh roof party crucifix, ' +
       'put a bird on it mixtape craft beer seitan meh chicharrones yr subway tile.',
-    status: 'completed'
+    status: 'completed',
+    date: new Date()
   }
 ];
 
-let todoId = 3;
+const STATUS = { pending: 'pending', completed: 'completed' };
 
 class TodoApp extends Component {
   constructor(props) {
-    // Pass props to parent class
     super(props);
-    // Set initial state
     this.state = {
-      data: todos,
-      status: 'pending'
+      todoId: 3,
+      data: TODOS,
+      status: STATUS.pending
     };
   }
 
   _addNewTodo(value) {
     // New todo values
-    const todo = { id: todoId += 1, name: value, status: 'pending' };
+    const newTodo = {
+      id: this.state.todoId += 1,
+      name: value,
+      status: STATUS.pending,
+      date: new Date()
+    };
     // Push new todo to data
-    this.state.data.push(todo);
+    this.state.data.push(newTodo);
     // Save this change
     this.setState({ data: this.state.data });
   }
@@ -122,7 +145,15 @@ class TodoApp extends Component {
     this.setState({ data: newTodos });
   }
 
-  _changeStatus(id, status) {
+  _changeStatusFilter() {
+    if (this.state.status === STATUS.completed) {
+      this.setState({ status: STATUS.pending });
+    } else {
+      this.setState({ status: STATUS.completed });
+    }
+  }
+
+  _changeTodoStatus(id, status) {
     const idx = this.state.data.findIndex(todo => todo.id === id);
     const newTodo = this.state.data[idx];
     newTodo.status = status;
@@ -135,18 +166,24 @@ class TodoApp extends Component {
   }
 
   _markAsCompleted(id) {
-    this._changeStatus(id, 'completed');
+    this._changeTodoStatus(id, STATUS.completed);
   }
 
   _markAsPending(id) {
-    this._changeStatus(id, 'pending');
+    this._changeTodoStatus(id, STATUS.pending);
   }
 
   render() {
     return (
       <div>
-        <HeaderComponent totalTodos={this.state.data.length} />
+        <HeaderComponent
+          totalTodos={this.state.data.filter(todo => todo.status === this.state.status).length}
+        />
         <TodoForm addTodo={value => this._addNewTodo(value)} />
+        <ChangeListFilter
+          status={this.state.status}
+          changeStatusFilter={() => this._changeStatusFilter()}
+        />
         <TodoList
           todos={this.state.data}
           remove={id => this._handleRemove(id)}

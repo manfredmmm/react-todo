@@ -1,6 +1,8 @@
 // Root imports
 import React, { PropTypes, Component } from 'react';
 
+import { moment } from 'moment';
+
 // Components import
 import HeaderComponent from './header/header.component';
 
@@ -29,6 +31,7 @@ const Todo = ({ todo, remove, completed }) => (
   <li>
     <h4>{todo.name}</h4>
     <span>{todo.date}</span>
+    <span>{moment().format('dddd')}</span>
     <p>{todo.description}</p>
     <p>{todo.status}</p>
     <button onClick={() => remove(todo.id)}>Delete</button>
@@ -89,7 +92,7 @@ TodoList.propTypes = {
 // --------------------------------------------
 // APPLICATION
 // --------------------------------------------
-const formatDate = date => `${date}`;
+const formatDate = date => date.toString();
 const TODOS = [
   {
     id: 0,

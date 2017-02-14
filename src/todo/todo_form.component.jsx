@@ -1,17 +1,35 @@
-import React, { PropTypes } from 'react';
+import React, { PropTypes, Component } from 'react';
 
-// ------------------------------------
-// TODO: fer form i enviar el formulari
-const TodoForm = ({ addTodo }) => {
-  let input;
-  return (
-    <div>
-      <label htmlFor="todoFormInput">New todo: </label>
-      <input id="todoFormInput" required ref={(node) => { input = node; }} />
-      <button onClick={() => { addTodo(input.value); input.value = ''; }}>Create</button>
-    </div>
-  );
-};
+class TodoForm extends Component {
+  constructor() {
+    super();
+    this.state = {
+      value: ''
+    };
+  }
+  _handleChange(event) {
+    this.setState({ value: event.target.value });
+  }
+  _handleSubmit(event) {
+    this.props.addTodo(this.state.value);
+    this.setState({ value: '' });
+    event.preventDefault();
+  }
+  render() {
+    return (
+      <form onSubmit={event => this._handleSubmit(event)}>
+        <label htmlFor="todoFormInput">New todo:
+          <input
+            type="text" id="todoFormInput" required
+            value={this.state.value}
+            onChange={event => this._handleChange(event)}
+          />
+        </label>
+        <input type="submit" value="Create" />
+      </form>
+    );
+  }
+}
 
 TodoForm.propTypes = {
   addTodo: PropTypes.func.isRequired

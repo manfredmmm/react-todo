@@ -2,10 +2,16 @@ import React, { PropTypes } from 'react';
 
 import Todo from './todo.component';
 
-const TodoList = ({ todos, remove, completed, status }) => {
+const TodoList = ({ todos, remove, completed, pending, status }) => {
   const todoNode = todos
     .filter(todo => todo.status === status)
-    .map(todo => <Todo todo={todo} key={todo.id} remove={remove} completed={completed} />);
+    .map(todo => <Todo
+      todo={todo}
+      key={todo.id}
+      remove={remove}
+      completed={completed}
+      pending={pending}
+    />);
   return (<ul>{todoNode}</ul>);
 };
 
@@ -20,6 +26,7 @@ TodoList.propTypes = {
   ).isRequired,
   remove: PropTypes.func.isRequired,
   completed: PropTypes.func.isRequired,
+  pending: PropTypes.func.isRequired,
   status: PropTypes.string.isRequired
 };
 

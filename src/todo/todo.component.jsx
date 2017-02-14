@@ -1,15 +1,27 @@
 import React, { PropTypes } from 'react';
 
-const Todo = ({ todo, remove, completed }) => (
-  <li>
-    <h4>{todo.name}</h4>
-    <span>{todo.date}</span>
-    <p>{todo.description}</p>
-    <p>{todo.status}</p>
-    <button onClick={() => remove(todo.id)}>Delete</button>
-    <button onClick={() => completed(todo.id)}>Completed</button>
-  </li>
-);
+const Todo = ({ todo, remove, pending, completed }) => {
+  let changeStatusButton = null;
+  if (todo.status === 'completed') {
+    changeStatusButton = (<button onClick={() => pending(todo.id)}>
+      Pending
+    </button>);
+  } else {
+    changeStatusButton = (<button onClick={() => completed(todo.id)}>
+      Completed
+    </button>);
+  }
+  return (
+    <li>
+      <h4>{todo.name}</h4>
+      <span>{todo.date}</span>
+      <p>{todo.description}</p>
+      <p>{todo.status}</p>
+      <button onClick={() => remove(todo.id)}>Delete</button>
+      {changeStatusButton}
+    </li>
+  );
+};
 
 Todo.propTypes = {
   todo: PropTypes.shape({
@@ -20,6 +32,7 @@ Todo.propTypes = {
     date: PropTypes.string
   }).isRequired,
   remove: PropTypes.func.isRequired,
+  pending: PropTypes.func.isRequired,
   completed: PropTypes.func.isRequired
 };
 

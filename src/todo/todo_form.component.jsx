@@ -20,7 +20,7 @@ class TodoForm extends Component {
       <form onSubmit={event => this._handleSubmit(event)}>
         <label htmlFor="todoFormInput">New todo:
           <input
-            type="text" id="todoFormInput" required
+            type="text" id="todoFormInput" required autoComplete="off"
             value={this.state.value}
             onChange={event => this._handleChange(event)}
           />

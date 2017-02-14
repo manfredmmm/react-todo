@@ -47,17 +47,17 @@ class TodoApp extends Component {
   }
 
   _addNewTodo(value) {
-    // New todo values
     const newTodo = {
       id: this.state.todoId += 1,
       name: value,
       status: STATUS.pending,
       date: moment().fromNow()
     };
-    // Push new todo to data
-    this.state.data.push(newTodo);
-    // Save this change
-    this.setState({ data: this.state.data });
+    const newTodos = [
+      ...this.state.data,
+      newTodo
+    ];
+    this.setState({ data: newTodos });
   }
 
   _handleRemove(id) {

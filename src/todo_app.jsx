@@ -6,6 +6,7 @@ import HeaderComponent from './header/header.component';
 import TodoForm from './todo/todo_form.component';
 import ChangeListFilter from './todo/change_list_filter.component';
 import TodoList from './todo/todo_list.component';
+import SearchTodo from './todo/search_todo.component';
 
 const TODOS = [
   {
@@ -42,6 +43,7 @@ class TodoApp extends Component {
     this.state = {
       todoId: 3,
       data: TODOS,
+      previousData: TODOS,
       status: STATUS.pending
     };
   }
@@ -58,11 +60,13 @@ class TodoApp extends Component {
       newTodo
     ];
     this.setState({ data: newTodos });
+    this.setState({ previousData: newTodos });
   }
 
   _handleRemove(id) {
     const newTodos = this.state.data.filter(todo => todo.id !== id);
     this.setState({ data: newTodos });
+    this.setState({ previousData: newTodos });
   }
 
   _changeStatusFilter() {
@@ -83,6 +87,7 @@ class TodoApp extends Component {
       ...this.state.data.slice(idx + 1)
     ];
     this.setState({ data: newTodos });
+    this.setState({ previousData: newTodos });
   }
 
   _markAsCompleted(id) {
@@ -93,16 +98,31 @@ class TodoApp extends Component {
     this._changeTodoStatus(id, STATUS.pending);
   }
 
+  _searchTodo(value) {
+    let filteredTodos;
+    if (value === '') {
+      filteredTodos = this.state.previousData;
+    } else {
+      filteredTodos = this.state.data.filter(todo => todo.name.includes(value));
+    }
+    this.setState({ data: filteredTodos });
+  }
+
   render() {
     return (
       <div>
         <HeaderComponent
           totalTodos={this.state.data.filter(todo => todo.status === this.state.status).length}
         />
-        <TodoForm addTodo={value => this._addNewTodo(value)} />
+        <TodoForm
+          addTodo={value => this._addNewTodo(value)}
+        />
         <ChangeListFilter
           status={this.state.status}
           changeStatusFilter={() => this._changeStatusFilter()}
+        />
+        <SearchTodo
+          searchTodo={value => this._searchTodo(value)}
         />
         <TodoList
           todos={this.state.data}

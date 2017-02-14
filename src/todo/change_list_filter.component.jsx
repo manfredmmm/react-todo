@@ -1,10 +1,20 @@
-import React, { PropTypes } from 'react';
+import React, { PropTypes, Component } from 'react';
 
-const ChangeListFilter = ({ status, changeStatusFilter }) => (
-  <button onClick={() => { changeStatusFilter(); }}>
-    Seeing {status} list, change it
-  </button>
-);
+class ChangeListFilter extends Component {
+  _inverseStatus() {
+    if (this.props.status === 'completed') {
+      return 'pending';
+    }
+    return 'completed';
+  }
+  render() {
+    return (
+      <button onClick={() => this.props.changeStatusFilter()}>
+        See {this._inverseStatus()} todos
+      </button>
+    );
+  }
+}
 
 ChangeListFilter.propTypes = {
   status: PropTypes.string.isRequired,

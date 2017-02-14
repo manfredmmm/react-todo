@@ -5,6 +5,7 @@ import Todo from './todo.component';
 const TodoList = ({ todos, remove, completed, pending, status }) => {
   const todoNode = todos
     .filter(todo => todo.status === status)
+    .slice().sort((todoA, todoB) => todoA.date < todoB.date)
     .map(todo => <Todo
       todo={todo}
       key={todo.id}

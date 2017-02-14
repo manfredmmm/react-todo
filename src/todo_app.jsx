@@ -1,16 +1,12 @@
-// Root imports
 import React, { Component } from 'react';
 
-// Dependencies
 import * as moment from 'moment';
 
-// Components import
 import HeaderComponent from './header/header.component';
 import TodoForm from './todo/todo_form.component';
 import ChangeListFilter from './todo/change_list_filter.component';
 import TodoList from './todo/todo_list.component';
 
-const formatDate = date => date.toString();
 const TODOS = [
   {
     id: 0,
@@ -19,7 +15,7 @@ const TODOS = [
       'mumblecore iceland stumptown gluten-free marfa. Actually banh mi intelligentsia ' +
       'kogi flexitarian schlitz.',
     status: 'pending',
-    date: moment().format('MMM Do YY')
+    date: moment().startOf('day').fromNow()
   }, {
     id: 1,
     name: 'todo item 1',
@@ -27,14 +23,14 @@ const TODOS = [
       'Letterpress 3 wolf moon enamel pin farm-to-table umami, direct trade YOLO asymmetrical ' +
       'squid tousled man bun fanny pack irony.',
     status: 'pending',
-    date: moment().format('MMM Do YY')
+    date: moment().subtract(3, 'hours').startOf('hour').fromNow()
   }, {
     id: 2,
     name: 'todo item 2',
     description: 'Fanny pack forage disrupt chia celiac fap. Messenger bag tbh roof party crucifix, ' +
       'put a bird on it mixtape craft beer seitan meh chicharrones yr subway tile.',
     status: 'completed',
-    date: moment().format('MMM Do YY')
+    date: moment().startOf('hour').fromNow()
   }
 ];
 
@@ -56,7 +52,7 @@ class TodoApp extends Component {
       id: this.state.todoId += 1,
       name: value,
       status: STATUS.pending,
-      date: formatDate(new Date())
+      date: moment().fromNow()
     };
     // Push new todo to data
     this.state.data.push(newTodo);

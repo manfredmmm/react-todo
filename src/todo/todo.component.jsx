@@ -1,12 +1,9 @@
 import React, { PropTypes } from 'react';
 
-import * as moment from 'moment';
-
 const Todo = ({ todo, remove, completed }) => (
   <li>
     <h4>{todo.name}</h4>
     <span>{todo.date}</span>
-    <span>{moment().format('dddd')}</span>
     <p>{todo.description}</p>
     <p>{todo.status}</p>
     <button onClick={() => remove(todo.id)}>Delete</button>

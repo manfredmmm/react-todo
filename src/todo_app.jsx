@@ -2,14 +2,13 @@ import React, { Component } from 'react';
 
 import * as moment from 'moment';
 import TODOS from './todos';
+import STATUS from './status';
 
 import HeaderComponent from './header/header.component';
 import TodoForm from './todo/todo_form.component';
 import ChangeListFilter from './todo/change_list_filter.component';
 import TodoList from './todo/todo_list.component';
 import SearchTodo from './todo/search_todo.component';
-
-const STATUS = { pending: 'pending', completed: 'completed' };
 
 class TodoApp extends Component {
   constructor(props) {
@@ -80,6 +79,18 @@ class TodoApp extends Component {
     }
   }
 
+  _edit(id, value) {
+    const idx = this.state.data.findIndex(todo => todo.id === id);
+    const newTodo = this.state.data[idx];
+    newTodo.name = value;
+    const newTodos = [
+      ...this.state.data.slice(0, idx),
+      newTodo,
+      ...this.state.data.slice(idx + 1)
+    ];
+    this.setState({ data: newTodos });
+  }
+
   render() {
     let data = [];
     this.state.filteredData.length > 0 ?
@@ -106,6 +117,7 @@ class TodoApp extends Component {
           completed={id => this._markAsCompleted(id)}
           pending={id => this._markAsPending(id)}
           status={this.state.status}
+          edit={(id, value) => this._edit(id, value)}
         />
       </div>
     );

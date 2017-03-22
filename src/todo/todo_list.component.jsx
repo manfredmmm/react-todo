@@ -1,21 +1,22 @@
 import React, { PropTypes } from 'react';
 
 import Todo from './todo.component';
+import styles from './todo_list.css';
 
-const TodoList = ({ todos, remove, completed, pending, status }) => {
+const TodoList = ({ todos, remove, completed, pending, status, edit }) => {
   const todoNode = todos
     .filter(todo => todo.status === status)
     .slice()
     .sort((todoA, todoB) => todoA.date < todoB.date)
     .slice()
     .sort((todoA, todoB) => todoA.name > todoB.name)
-    .map(todo => <Todo
+    .map(todo => (<li key={todo.id} className={styles.todo}><Todo
       todo={todo}
-      key={todo.id}
       remove={remove}
       completed={completed}
       pending={pending}
-    />);
+      edit={edit}
+    /></li>));
   return (<ul>{todoNode}</ul>);
 };
 
@@ -31,7 +32,8 @@ TodoList.propTypes = {
   remove: PropTypes.func.isRequired,
   completed: PropTypes.func.isRequired,
   pending: PropTypes.func.isRequired,
-  status: PropTypes.string.isRequired
+  status: PropTypes.string.isRequired,
+  edit: PropTypes.func.isRequired
 };
 
 export default TodoList;

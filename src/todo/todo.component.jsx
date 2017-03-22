@@ -14,9 +14,9 @@ class Todo extends Component {
     this.setState({ editing: !this.state.editing });
   }
 
-  _updateValue(event) {
+  _updateValue(event, entry) {
     event.preventDefault();
-    this.props.edit(this.props.todo.id, event.target.value);
+    this.props.edit(this.props.todo.id, event.target.value, entry);
   }
 
   render() {
@@ -60,7 +60,7 @@ class Todo extends Component {
           style={this.state.editing ? shown : hidden}
           type="text"
           value={this.props.todo.name}
-          onChange={event => this._updateValue(event)}
+          onChange={event => this._updateValue(event, 'name')}
           onClick={event => this._toggleInput(event)}
           ref={(input) => { this.textInput = input; }}
         />

@@ -79,10 +79,19 @@ class TodoApp extends Component {
     }
   }
 
-  _edit(id, value) {
+  _edit(id, value, entry) {
     const idx = this.state.data.findIndex(todo => todo.id === id);
     const newTodo = this.state.data[idx];
-    newTodo.name = value;
+    switch (entry) {
+      case 'name':
+        newTodo.name = value;
+        break;
+      case 'description':
+        newTodo.description = value;
+        break;
+      default:
+        break;
+    }
     const newTodos = [
       ...this.state.data.slice(0, idx),
       newTodo,
@@ -117,7 +126,7 @@ class TodoApp extends Component {
           completed={id => this._markAsCompleted(id)}
           pending={id => this._markAsPending(id)}
           status={this.state.status}
-          edit={(id, value) => this._edit(id, value)}
+          edit={(id, value, entry) => this._edit(id, value, entry)}
         />
       </div>
     );

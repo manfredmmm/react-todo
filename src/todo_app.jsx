@@ -70,7 +70,7 @@ class TodoApp extends Component {
 
   _searchTodo(value) {
     let filteredTodos;
-    if (value.length === 0) {
+    if (!value) {
       this.setState({ filteredData: '' });
     } else {
       filteredTodos = this.state.data

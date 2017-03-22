@@ -8,7 +8,8 @@
   "rules": {
     "comma-dangle": "off",
     "react/sort-comp": "off",
-    "no-underscore-dangle": "off"
+    "no-underscore-dangle": "off",
+    "no-unused-expressions": "off"
   },
   "globals": {
     "document": false

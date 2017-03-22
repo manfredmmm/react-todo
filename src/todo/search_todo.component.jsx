@@ -7,18 +7,22 @@ class SearchTodo extends Component {
       search: ''
     };
   }
+
   _handleChange(event) {
     this.setState({ search: event.target.value });
     this.props.searchTodo(event.target.value);
   }
+
   _handleSubmit(event) {
-    this.props.searchTodo(event.target.value);
     event.preventDefault();
+    this.props.searchTodo(event.target.value);
   }
+
   _cleanSearch() {
     this.props.searchTodo('');
     this.setState({ search: '' });
   }
+
   render() {
     return (
       <div>
@@ -26,18 +30,21 @@ class SearchTodo extends Component {
           <label htmlFor="searchInput">
             Search by name:
             <input
-              id="searchInput" type="text"
-              placeholder="Search todo" autoComplete="off"
+              id="searchInput"
+              type="text"
+              placeholder="Search todo"
+              autoComplete="off"
               value={this.state.search}
               onChange={event => this._handleChange(event)}
             />
           </label>
+          <button onClick={() => this._cleanSearch()}>X</button>
         </form>
-        <button onClick={() => this._cleanSearch()}>X</button>
       </div>
     );
   }
 }
+
 SearchTodo.propTypes = {
   searchTodo: PropTypes.func.isRequired
 };

@@ -1,39 +1,13 @@
 import React, { Component } from 'react';
 
 import * as moment from 'moment';
+import TODOS from './todos';
 
 import HeaderComponent from './header/header.component';
 import TodoForm from './todo/todo_form.component';
 import ChangeListFilter from './todo/change_list_filter.component';
 import TodoList from './todo/todo_list.component';
 import SearchTodo from './todo/search_todo.component';
-
-const TODOS = [
-  {
-    id: 0,
-    name: 'todo item 0',
-    description: 'Gochujang chambray shabby chic dreamcatcher put a bird on it, ' +
-      'mumblecore iceland stumptown gluten-free marfa. Actually banh mi intelligentsia ' +
-      'kogi flexitarian schlitz.',
-    status: 'pending',
-    date: moment().startOf('day').fromNow()
-  }, {
-    id: 1,
-    name: 'todo item 1',
-    description: ' Flexitarian slow-carb fap locavore stumptown. ' +
-      'Letterpress 3 wolf moon enamel pin farm-to-table umami, direct trade YOLO asymmetrical ' +
-      'squid tousled man bun fanny pack irony.',
-    status: 'pending',
-    date: moment().subtract(3, 'hours').startOf('hour').fromNow()
-  }, {
-    id: 2,
-    name: 'todo item 2',
-    description: 'Fanny pack forage disrupt chia celiac fap. Messenger bag tbh roof party crucifix, ' +
-      'put a bird on it mixtape craft beer seitan meh chicharrones yr subway tile.',
-    status: 'completed',
-    date: moment().startOf('hour').fromNow()
-  }
-];
 
 const STATUS = { pending: 'pending', completed: 'completed' };
 
@@ -43,7 +17,7 @@ class TodoApp extends Component {
     this.state = {
       todoId: 3,
       data: TODOS,
-      previousData: TODOS,
+      filteredData: [],
       status: STATUS.pending
     };
   }
@@ -60,13 +34,11 @@ class TodoApp extends Component {
       newTodo
     ];
     this.setState({ data: newTodos });
-    this.setState({ previousData: newTodos });
   }
 
   _handleRemove(id) {
     const newTodos = this.state.data.filter(todo => todo.id !== id);
     this.setState({ data: newTodos });
-    this.setState({ previousData: newTodos });
   }
 
   _changeStatusFilter() {
@@ -87,7 +59,6 @@ class TodoApp extends Component {
       ...this.state.data.slice(idx + 1)
     ];
     this.setState({ data: newTodos });
-    this.setState({ previousData: newTodos });
   }
 
   _markAsCompleted(id) {
@@ -100,15 +71,20 @@ class TodoApp extends Component {
 
   _searchTodo(value) {
     let filteredTodos;
-    if (value === '') {
-      filteredTodos = this.state.previousData;
+    if (value.length === 0) {
+      this.setState({ filteredData: '' });
     } else {
-      filteredTodos = this.state.data.filter(todo => todo.name.includes(value));
+      filteredTodos = this.state.data
+          .filter(todo => todo.name.toLowerCase().includes(value.toLowerCase()));
+      this.setState({ filteredData: filteredTodos });
     }
-    this.setState({ data: filteredTodos });
   }
 
   render() {
+    let data = [];
+    this.state.filteredData.length > 0 ?
+      data = this.state.filteredData :
+      data = this.state.data;
     return (
       <div>
         <HeaderComponent
@@ -125,7 +101,7 @@ class TodoApp extends Component {
           searchTodo={value => this._searchTodo(value)}
         />
         <TodoList
-          todos={this.state.data}
+          todos={data}
           remove={id => this._handleRemove(id)}
           completed={id => this._markAsCompleted(id)}
           pending={id => this._markAsPending(id)}

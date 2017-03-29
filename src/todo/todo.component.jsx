@@ -4,14 +4,25 @@ class Todo extends Component {
   constructor() {
     super();
     this.state = {
-      editing: false
+      editingName: false,
+      editingDescription: false
     };
   }
 
-  _toggleInput(event) {
+  _toggleInput(event, entry) {
     event.preventDefault();
-    this.textInput.focus();
-    this.setState({ editing: !this.state.editing });
+    switch (entry) {
+      case 'name':
+        this.nameInput.focus();
+        this.setState({ editingName: !this.state.editingName });
+        break;
+      case 'description':
+        this.descriptionInput.focus();
+        this.setState({ editingDescription: !this.state.editingDescription });
+        break;
+      default:
+        break;
+    }
   }
 
   _updateValue(event, entry) {
@@ -40,29 +51,47 @@ class Todo extends Component {
     const shown = {
       opacity: 1,
       position: 'absolute',
-      margin: 0
+      margin: 0,
+      minWidth: 300
     };
     const todo = {
       position: 'relative'
     };
-    const nameBlock = {
-      height: 30
+    const editBlock = {
+      minHeight: 30
     };
     const displayName = (
-      <div style={nameBlock}>
+      <div style={editBlock}>
         <h4
-          style={!this.state.editing ? shown : hidden}
-          onClick={event => this._toggleInput(event)}
+          style={!this.state.editingName ? shown : hidden}
+          onClick={event => this._toggleInput(event, 'name')}
         >
           {this.props.todo.name}
         </h4>
         <input
-          style={this.state.editing ? shown : hidden}
+          style={this.state.editingName ? shown : hidden}
           type="text"
           value={this.props.todo.name}
           onChange={event => this._updateValue(event, 'name')}
-          onClick={event => this._toggleInput(event)}
-          ref={(input) => { this.textInput = input; }}
+          onClick={event => this._toggleInput(event, 'name')}
+          ref={(input) => { this.nameInput = input; }}
+        />
+      </div>
+    );
+    const displayDescription = (
+      <div style={editBlock}>
+        <h4
+          style={!this.state.editingDescription ? shown : hidden}
+          onClick={event => this._toggleInput(event, 'description')}
+        >
+          {this.props.todo.description}
+        </h4>
+        <textarea
+          style={this.state.editingDescription ? shown : hidden}
+          value={this.props.todo.description}
+          onChange={event => this._updateValue(event, 'description')}
+          onClick={event => this._toggleInput(event, 'description')}
+          ref={(input) => { this.descriptionInput = input; }}
         />
       </div>
     );
@@ -71,7 +100,7 @@ class Todo extends Component {
       <div style={todo}>
         {displayName}
         <span>{this.props.todo.date}</span>
-        <p>{this.props.todo.description}</p>
+        {displayDescription}
         <p>{this.props.todo.status}</p>
         <button onClick={() => this.props.remove(this.props.todo.id)}>Delete</button>
         {changeStatusButton}

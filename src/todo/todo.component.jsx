@@ -101,12 +101,12 @@ class Todo extends Component {
     );
     const displayDescription = (
       <div style={editBlock}>
-        <h4
+        <p
           style={!this.state.editingDescription ? shown : hidden}
           onClick={event => this._toggleInput(event, 'description')}
         >
           {this.props.todo.description}
-        </h4>
+        </p>
         <textarea
           style={this.state.editingDescription ? shown : hidden}
           value={this.props.todo.description}

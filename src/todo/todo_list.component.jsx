@@ -8,8 +8,6 @@ const TodoList = ({ todos, remove, completed, pending, status, edit }) => {
     .filter(todo => todo.status === status)
     .slice()
     .sort((todoA, todoB) => todoA.date < todoB.date)
-    .slice()
-    .sort((todoA, todoB) => todoA.name > todoB.name)
     .map(todo => (
       <li key={todo.id} className={styles.todo}>
         <Todo

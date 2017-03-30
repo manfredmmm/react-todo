@@ -3,6 +3,8 @@ import React, { PropTypes } from 'react';
 import Todo from './todo.component';
 import styles from './todo_list.css';
 
+import STATUS from '../status';
+
 const TodoList = ({ todos, remove, completed, pending, status, edit }) => {
   const todoNode = todos
     .filter(todo => todo.status === status)
@@ -19,7 +21,13 @@ const TodoList = ({ todos, remove, completed, pending, status, edit }) => {
         />
       </li>
     ));
-  return (<ul>{todoNode}</ul>);
+  const listTitle = status === STATUS.pending ? 'Pending tasks' : 'Completed tasks';
+  return (
+    <div>
+      <h2>{listTitle}</h2>
+      <ul>{todoNode}</ul>
+    </div>
+  );
 };
 
 TodoList.propTypes = {

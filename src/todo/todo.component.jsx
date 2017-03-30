@@ -83,13 +83,11 @@ class Todo extends Component {
     };
     const displayName = (
       <div style={editBlock}>
-        <h4
-          style={!this.state.editingName ? shown : hidden}
-          onClick={event => this._toggleInput(event, 'name')}
-        >
+        <a href style={!this.state.editingName ? shown : hidden} onClick={event => this._toggleInput(event, 'name')}>
           {this.props.todo.name}
-        </h4>
+        </a>
         <input
+          placeholder="TODO title, click here to change it"
           style={this.state.editingName ? shown : hidden}
           type="text"
           value={this.props.todo.name}
@@ -101,13 +99,11 @@ class Todo extends Component {
     );
     const displayDescription = (
       <div style={editBlock}>
-        <p
-          style={!this.state.editingDescription ? shown : hidden}
-          onClick={event => this._toggleInput(event, 'description')}
-        >
+        <a href style={!this.state.editingDescription ? shown : hidden} onClick={event => this._toggleInput(event, 'description')}>
           {this.props.todo.description}
-        </p>
+        </a>
         <textarea
+          placeholder="TODO description, click here to change it"
           style={this.state.editingDescription ? shown : hidden}
           value={this.props.todo.description}
           onChange={event => this._updateValue(event, 'description')}
@@ -122,7 +118,6 @@ class Todo extends Component {
         {displayName}
         <span>{this.state.timeAgo}</span>
         {displayDescription}
-        <p>{this.props.todo.status}</p>
         <button onClick={() => this.props.remove(this.props.todo.id)}>Delete</button>
         {changeStatusButton}
       </div>

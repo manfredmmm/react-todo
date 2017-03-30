@@ -10,13 +10,17 @@ const TodoList = ({ todos, remove, completed, pending, status, edit }) => {
     .sort((todoA, todoB) => todoA.date < todoB.date)
     .slice()
     .sort((todoA, todoB) => todoA.name > todoB.name)
-    .map(todo => (<li key={todo.id} className={styles.todo}><Todo
-      todo={todo}
-      remove={remove}
-      completed={completed}
-      pending={pending}
-      edit={edit}
-    /></li>));
+    .map(todo => (
+      <li key={todo.id} className={styles.todo}>
+        <Todo
+          todo={todo}
+          remove={remove}
+          completed={completed}
+          pending={pending}
+          edit={edit}
+        />
+      </li>
+    ));
   return (<ul>{todoNode}</ul>);
 };
 
@@ -26,7 +30,7 @@ TodoList.propTypes = {
       id: PropTypes.number.isRequired,
       name: PropTypes.string.isRequired,
       description: PropTypes.string,
-      date: PropTypes.string
+      date: PropTypes.string.isRequired
     })
   ).isRequired,
   remove: PropTypes.func.isRequired,

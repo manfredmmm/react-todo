@@ -1,12 +1,33 @@
 import React, { PropTypes, Component } from 'react';
 
+import * as moment from 'moment';
+
 class Todo extends Component {
   constructor() {
     super();
     this.state = {
       editingName: false,
-      editingDescription: false
+      editingDescription: false,
+      timeAgo: null
     };
+  }
+
+  getInitialState() {
+    return { timeAgo: moment(new Date(this.props.todo.date)).fromNow() };
+  }
+
+  componentDidMount() {
+    this.todoTimeAgoID = setInterval(
+      () => this._updateTimeAgo()
+    , 300);
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.todoTimeAgoID);
+  }
+
+  _updateTimeAgo() {
+    this.setState({ timeAgo: moment(new Date(this.props.todo.date)).fromNow() });
   }
 
   _toggleInput(event, entry) {
@@ -99,7 +120,7 @@ class Todo extends Component {
     return (
       <div style={todo}>
         {displayName}
-        <span>{this.props.todo.date}</span>
+        <span>{this.state.timeAgo}</span>
         {displayDescription}
         <p>{this.props.todo.status}</p>
         <button onClick={() => this.props.remove(this.props.todo.id)}>Delete</button>
@@ -115,7 +136,7 @@ Todo.propTypes = {
     name: PropTypes.string.isRequired,
     description: PropTypes.string,
     status: PropTypes.string.isRequired,
-    date: PropTypes.string
+    date: PropTypes.string.isRequired
   }).isRequired,
   remove: PropTypes.func.isRequired,
   pending: PropTypes.func.isRequired,

@@ -26,7 +26,8 @@ class TodoApp extends Component {
       id: this.state.todoId += 1,
       name: value,
       status: STATUS.pending,
-      date: moment().fromNow()
+      description: '',
+      date: `${moment()}`
     };
     const newTodos = [
       ...this.state.data,
@@ -113,10 +114,6 @@ class TodoApp extends Component {
         <TodoForm
           addTodo={value => this._addNewTodo(value)}
         />
-        <ChangeListFilter
-          status={this.state.status}
-          changeStatusFilter={() => this._changeStatusFilter()}
-        />
         <SearchTodo
           searchTodo={value => this._searchTodo(value)}
         />
@@ -127,6 +124,10 @@ class TodoApp extends Component {
           pending={id => this._markAsPending(id)}
           status={this.state.status}
           edit={(id, value, entry) => this._edit(id, value, entry)}
+        />
+        <ChangeListFilter
+          status={this.state.status}
+          changeStatusFilter={() => this._changeStatusFilter()}
         />
       </div>
     );

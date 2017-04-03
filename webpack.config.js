@@ -3,8 +3,7 @@ module.exports = {
   devtool: 'eval-source-map',
   output: {
     path: `${__dirname}/dist`,
-    filename: 'bundle.js',
-    publicPath: '/assets'
+    filename: 'bundle.js'
   },
   resolve: {
     extensions: ['.js', '.jsx']

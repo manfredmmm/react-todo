@@ -82,13 +82,19 @@ class TodoApp extends Component {
 
   _edit(id, value, entry) {
     const idx = this.state.data.findIndex(todo => todo.id === id);
-    const newTodo = this.state.data[idx];
+    let newTodo = {};
     switch (entry) {
       case 'name':
-        newTodo.name = value;
+        newTodo = {
+          ...this.state.data[idx],
+          name: value
+        };
         break;
       case 'description':
-        newTodo.description = value;
+        newTodo = {
+          ...this.state.data[idx],
+          description: value
+        };
         break;
       default:
         break;

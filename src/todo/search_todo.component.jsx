@@ -1,4 +1,10 @@
 import React, { Component, PropTypes } from 'react';
+import { connect } from 'react-redux';
+
+const searchCreator = value => ({
+  type: 'SEARCH_TODO',
+  value
+});
 
 class SearchTodo extends Component {
   constructor() {
@@ -49,4 +55,9 @@ SearchTodo.propTypes = {
   searchTodo: PropTypes.func.isRequired
 };
 
-export default SearchTodo;
+export default connect(() => ({
+}), dispatch => ({
+  searchTodo: (value) => {
+    dispatch(searchCreator(value));
+  }
+}))(SearchTodo);

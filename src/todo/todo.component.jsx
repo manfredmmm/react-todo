@@ -1,6 +1,29 @@
 import React, { PropTypes, Component } from 'react';
+import { connect } from 'react-redux';
 
 import * as moment from 'moment';
+
+const removeCreator = id => ({
+  type: 'REMOVE_TODO',
+  id
+});
+
+const completedCreator = id => ({
+  type: 'COMPLETED_TODO',
+  id
+});
+
+const pendingCreator = id => ({
+  type: 'PENDING_TODO',
+  id
+});
+
+const editCreator = (id, entry, value) => ({
+  type: 'EDIT_TODO',
+  id,
+  entry,
+  value
+});
 
 class Todo extends Component {
   constructor() {
@@ -48,7 +71,7 @@ class Todo extends Component {
 
   _updateValue(event, entry) {
     event.preventDefault();
-    this.props.edit(this.props.todo.id, event.target.value, entry);
+    this.props.edit(this.props.todo.id, entry, event.target.value);
   }
 
   render() {
@@ -139,4 +162,18 @@ Todo.propTypes = {
   edit: PropTypes.func.isRequired
 };
 
-export default Todo;
+export default connect(() => ({
+}), dispatch => ({
+  remove: (id) => {
+    dispatch(removeCreator(id));
+  },
+  completed: (id) => {
+    dispatch(completedCreator(id));
+  },
+  pending: (id) => {
+    dispatch(pendingCreator(id));
+  },
+  edit: (id, entry, value) => {
+    dispatch(editCreator(id, entry, value));
+  }
+}))(Todo);

@@ -15,26 +15,26 @@ const appReducer = (state, action) => {
   let newTodo = {};
   let idx;
   let totalTodos;
+  let title;
   switch (action.type) {
-    case 'CHANGE_TITLE':
-      return {
-        ...state,
-        title: action.title
-      };
-    case 'CHANGE_STATUS':
+    case 'FILTER_STATUS':
       if (state.status === STATUS.completed) {
         totalTodos = state.todos.filter(todo => todo.status === STATUS.pending).length;
+        title = 'Pending TODOS';
         return {
           ...state,
           status: STATUS.pending,
-          totalTodos
+          totalTodos,
+          title
         };
       }
       totalTodos = state.todos.filter(todo => todo.status === STATUS.completed).length;
+      title = 'Completed TODOS';
       return {
         ...state,
         status: STATUS.completed,
-        totalTodos
+        totalTodos,
+        title
       };
     case 'REMOVE_TODO':
       newTodos = state.todos.filter(todo => todo.id !== action.id);
@@ -123,14 +123,14 @@ const appReducer = (state, action) => {
       };
     case 'SEARCH_TODO':
       if (!action.value) {
-        filteredTodos = '';
+        filteredTodos = [];
       } else {
         filteredTodos = state.todos
-            .filter(todo => todo.name.toLowerCase().includes(action.value.toLowerCase()));
+          .filter(todo => todo.name.toLowerCase().includes(action.value.toLowerCase()));
       }
       return {
         ...state,
-        filteredTodos
+        todos: filteredTodos
       };
     default:
       return state;

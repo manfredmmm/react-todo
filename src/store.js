@@ -7,12 +7,12 @@ import TODOS from './todos';
 import STATUS from './status';
 
 const initialState = {
-  title: 'TODO title',
+  title: 'Pending TODOS',
   status: STATUS.pending,
   totalTodos: TODOS.filter(todo => todo.status === STATUS.pending).length,
   todos: TODOS,
   todoId: 3,
-  filteredTodos: ''
+  filteredTodos: []
 };
 
 const middlewares = [

@@ -4,8 +4,6 @@ import { connect } from 'react-redux';
 import Todo from './todo.component';
 import styles from './todo_list.css';
 
-import STATUS from '../status';
-
 const TodoList = ({ todos, status }) => {
   const todoNode = todos
     .filter(todo => todo.status === status)
@@ -16,10 +14,8 @@ const TodoList = ({ todos, status }) => {
         <Todo todo={todo} />
       </li>
     ));
-  const listTitle = status === STATUS.pending ? 'Pending tasks' : 'Completed tasks';
   return (
     <div>
-      <h2>{listTitle}</h2>
       <ul>{todoNode}</ul>
     </div>
   );
@@ -38,6 +34,6 @@ TodoList.propTypes = {
 };
 
 export default connect(state => ({
-  todos: state.todos,
+  todos: state.filteredTodos.length > 0 ? state.filteredTodos : state.todos,
   status: state.status
 }))(TodoList);

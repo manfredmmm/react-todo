@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
+import { Provider } from 'react-redux';
 
 import * as moment from 'moment';
 import TODOS from './todos';
 import STATUS from './status';
+
+import store from './store';
 
 import HeaderComponent from './header/header.component';
 import TodoForm from './todo/todo_form.component';
@@ -113,29 +116,29 @@ class TodoApp extends Component {
       data = this.state.filteredData :
       data = this.state.data;
     return (
-      <div>
-        <HeaderComponent
-          totalTodos={this.state.data.filter(todo => todo.status === this.state.status).length}
-        />
-        <TodoForm
-          addTodo={value => this._addNewTodo(value)}
-        />
-        <SearchTodo
-          searchTodo={value => this._searchTodo(value)}
-        />
-        <TodoList
-          todos={data}
-          remove={id => this._handleRemove(id)}
-          completed={id => this._markAsCompleted(id)}
-          pending={id => this._markAsPending(id)}
-          status={this.state.status}
-          edit={(id, value, entry) => this._edit(id, value, entry)}
-        />
-        <ChangeListFilter
-          status={this.state.status}
-          changeStatusFilter={() => this._changeStatusFilter()}
-        />
-      </div>
+      <Provider store={store}>
+        <div>
+          <HeaderComponent />
+          <TodoForm
+            addTodo={value => this._addNewTodo(value)}
+          />
+          <SearchTodo
+            searchTodo={value => this._searchTodo(value)}
+          />
+          <TodoList
+            todos={data}
+            remove={id => this._handleRemove(id)}
+            completed={id => this._markAsCompleted(id)}
+            pending={id => this._markAsPending(id)}
+            status={this.state.status}
+            edit={(id, value, entry) => this._edit(id, value, entry)}
+          />
+          <ChangeListFilter
+            status={this.state.status}
+            changeStatusFilter={() => this._changeStatusFilter()}
+          />
+        </div>
+      </Provider>
     );
   }
 }

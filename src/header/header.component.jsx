@@ -11,7 +11,7 @@ const changeTitleCreator = title => ({
 const HeaderComponent = ({ title, totalTodos, changeTitle }) => (
   <header className={styles.header}>
     <h1 className={styles.title}>{title} ({totalTodos})</h1>
-    <button onClick={() => changeTitle('basura')}>Change title BAS</button>
+    <button onClick={() => changeTitle('bas')}>Change title BAS</button>
     <button onClick={() => changeTitle('asd')}>Change title ASD</button>
   </header>
 );

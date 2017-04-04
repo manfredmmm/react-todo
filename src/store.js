@@ -9,7 +9,10 @@ import STATUS from './status';
 const initialState = {
   title: 'TODO title',
   status: STATUS.pending,
-  totalTodos: TODOS.filter(todo => todo.status === STATUS.pending).length
+  totalTodos: TODOS.filter(todo => todo.status === STATUS.pending).length,
+  todos: TODOS,
+  todoId: 3,
+  filteredData: []
 };
 
 const middlewares = [

@@ -12,7 +12,7 @@ const initialState = {
   totalTodos: TODOS.filter(todo => todo.status === STATUS.pending).length,
   todos: TODOS,
   todoId: 3,
-  filteredData: []
+  filteredTodos: ''
 };
 
 const middlewares = [

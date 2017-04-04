@@ -1,4 +1,10 @@
 import React, { PropTypes, Component } from 'react';
+import { connect } from 'react-redux';
+
+const addCreator = value => ({
+  type: 'ADD_TODO',
+  value
+});
 
 class TodoForm extends Component {
   constructor() {
@@ -36,4 +42,9 @@ TodoForm.propTypes = {
   addTodo: PropTypes.func.isRequired
 };
 
-export default TodoForm;
+export default connect(() => ({
+}), dispatch => ({
+  addTodo: (value) => {
+    dispatch(addCreator(value));
+  }
+}))(TodoForm);

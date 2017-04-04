@@ -39,39 +39,6 @@ class TodoApp extends Component {
     this.setState({ data: newTodos });
   }
 
-  _handleRemove(id) {
-    const newTodos = this.state.data.filter(todo => todo.id !== id);
-    this.setState({ data: newTodos });
-  }
-
-  _changeStatusFilter() {
-    if (this.state.status === STATUS.completed) {
-      this.setState({ status: STATUS.pending });
-    } else {
-      this.setState({ status: STATUS.completed });
-    }
-  }
-
-  _changeTodoStatus(id, status) {
-    const idx = this.state.data.findIndex(todo => todo.id === id);
-    const newTodo = this.state.data[idx];
-    newTodo.status = status;
-    const newTodos = [
-      ...this.state.data.slice(0, idx),
-      newTodo,
-      ...this.state.data.slice(idx + 1)
-    ];
-    this.setState({ data: newTodos });
-  }
-
-  _markAsCompleted(id) {
-    this._changeTodoStatus(id, STATUS.completed);
-  }
-
-  _markAsPending(id) {
-    this._changeTodoStatus(id, STATUS.pending);
-  }
-
   _searchTodo(value) {
     let filteredTodos;
     if (!value) {
@@ -83,38 +50,7 @@ class TodoApp extends Component {
     }
   }
 
-  _edit(id, value, entry) {
-    const idx = this.state.data.findIndex(todo => todo.id === id);
-    let newTodo = {};
-    switch (entry) {
-      case 'name':
-        newTodo = {
-          ...this.state.data[idx],
-          name: value
-        };
-        break;
-      case 'description':
-        newTodo = {
-          ...this.state.data[idx],
-          description: value
-        };
-        break;
-      default:
-        break;
-    }
-    const newTodos = [
-      ...this.state.data.slice(0, idx),
-      newTodo,
-      ...this.state.data.slice(idx + 1)
-    ];
-    this.setState({ data: newTodos });
-  }
-
   render() {
-    let data = [];
-    this.state.filteredData.length > 0 ?
-      data = this.state.filteredData :
-      data = this.state.data;
     return (
       <Provider store={store}>
         <div>
@@ -125,14 +61,7 @@ class TodoApp extends Component {
           <SearchTodo
             searchTodo={value => this._searchTodo(value)}
           />
-          <TodoList
-            todos={data}
-            remove={id => this._handleRemove(id)}
-            completed={id => this._markAsCompleted(id)}
-            pending={id => this._markAsPending(id)}
-            status={this.state.status}
-            edit={(id, value, entry) => this._edit(id, value, entry)}
-          />
+          <TodoList />
           <ChangeListFilter />
         </div>
       </Provider>

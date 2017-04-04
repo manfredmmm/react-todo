@@ -1,24 +1,19 @@
 import React, { PropTypes } from 'react';
+import { connect } from 'react-redux';
 
 import Todo from './todo.component';
 import styles from './todo_list.css';
 
 import STATUS from '../status';
 
-const TodoList = ({ todos, remove, completed, pending, status, edit }) => {
+const TodoList = ({ todos, status }) => {
   const todoNode = todos
     .filter(todo => todo.status === status)
     .slice()
     .sort((todoA, todoB) => todoA.date < todoB.date)
     .map(todo => (
       <li key={todo.id} className={styles.todo}>
-        <Todo
-          todo={todo}
-          remove={remove}
-          completed={completed}
-          pending={pending}
-          edit={edit}
-        />
+        <Todo todo={todo} />
       </li>
     ));
   const listTitle = status === STATUS.pending ? 'Pending tasks' : 'Completed tasks';
@@ -39,11 +34,10 @@ TodoList.propTypes = {
       date: PropTypes.string.isRequired
     })
   ).isRequired,
-  remove: PropTypes.func.isRequired,
-  completed: PropTypes.func.isRequired,
-  pending: PropTypes.func.isRequired,
-  status: PropTypes.string.isRequired,
-  edit: PropTypes.func.isRequired
+  status: PropTypes.string.isRequired
 };
 
-export default TodoList;
+export default connect(state => ({
+  todos: state.todos,
+  status: state.status
+}))(TodoList);

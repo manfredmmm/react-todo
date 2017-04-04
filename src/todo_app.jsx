@@ -133,10 +133,7 @@ class TodoApp extends Component {
             status={this.state.status}
             edit={(id, value, entry) => this._edit(id, value, entry)}
           />
-          <ChangeListFilter
-            status={this.state.status}
-            changeStatusFilter={() => this._changeStatusFilter()}
-          />
+          <ChangeListFilter />
         </div>
       </Provider>
     );

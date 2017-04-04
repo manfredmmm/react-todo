@@ -7,7 +7,7 @@ const appReducer = (state, action) => {
         ...state,
         title: action.title
       };
-    case 'CHANGE_FILTER':
+    case 'CHANGE_STATUS':
       if (state.status === STATUS.completed) {
         return {
           ...state,

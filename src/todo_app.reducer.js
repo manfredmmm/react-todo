@@ -130,7 +130,7 @@ const appReducer = (state, action) => {
       }
       return {
         ...state,
-        todos: filteredTodos
+        filteredTodos
       };
     default:
       return state;

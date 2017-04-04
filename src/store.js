@@ -1,14 +1,25 @@
-import { createStore } from 'redux';
+import { createStore, applyMiddleware } from 'redux';
+import createLogger from 'redux-logger';
+
 import appReducer from './todo_app.reducer';
+
+import TODOS from './todos';
+import STATUS from './status';
 
 const initialState = {
   title: 'TODO title',
-  totalTodos: 10
+  status: STATUS.pending,
+  totalTodos: TODOS.filter(todo => todo.status === STATUS.pending).length
 };
+
+const middlewares = [
+  createLogger()
+];
 
 const store = createStore(
   appReducer,
-  initialState
+  initialState,
+  applyMiddleware(...middlewares)
 );
 
 export default store;

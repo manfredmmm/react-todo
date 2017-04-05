@@ -139,14 +139,16 @@ class Todo extends Component {
 
     return (
       <div style={todo}>
+        <Link to={`/todos/${this.props.todo.id}`}>
+          See {this.props.todo.name}
+        </Link>
+        <br />
+        <br />
         {displayName}
         <span>{this.state.timeAgo}</span>
         {displayDescription}
         <button onClick={() => this.props.remove(this.props.todo.id)}>Delete</button>
         {changeStatusButton}
-        <Link to={`/todos/${this.props.todo.id}`}>
-          See {this.props.todo.name}
-        </Link>
       </div>
     );
   }

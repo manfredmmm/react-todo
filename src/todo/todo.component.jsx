@@ -1,5 +1,6 @@
 import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 import * as moment from 'moment';
 
@@ -143,6 +144,9 @@ class Todo extends Component {
         {displayDescription}
         <button onClick={() => this.props.remove(this.props.todo.id)}>Delete</button>
         {changeStatusButton}
+        <Link to={`/todos/${this.props.todo.id}`}>
+          See {this.props.todo.name}
+        </Link>
       </div>
     );
   }

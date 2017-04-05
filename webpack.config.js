@@ -1,6 +1,9 @@
 module.exports = {
   entry: './src/entry.js',
   devtool: 'eval-source-map',
+  devServer: {
+    historyApiFallback: true,
+  },
   output: {
     path: `${__dirname}/dist`,
     filename: 'bundle.js'

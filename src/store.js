@@ -9,7 +9,6 @@ import STATUS from './status';
 const initialState = {
   title: 'Pending TODOS',
   status: STATUS.pending,
-  totalTodos: TODOS.filter(todo => todo.status === STATUS.pending).length,
   todos: TODOS,
   todoId: 3,
   filteredTodos: []

@@ -3,18 +3,29 @@ import { connect } from 'react-redux';
 
 import styles from './header.css';
 
-const HeaderComponent = ({ title, totalTodos }) => (
+const HeaderComponent = ({ title, todos, status }) => (
   <header className={styles.header}>
-    <h1 className={styles.title}>{title} ({totalTodos})</h1>
+    <h1 className={styles.title}>{title} (
+      {todos.filter(todo => todo.status === status).length}
+    )</h1>
   </header>
 );
 
 HeaderComponent.propTypes = {
   title: PropTypes.string.isRequired,
-  totalTodos: PropTypes.number.isRequired
+  todos: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      name: PropTypes.string.isRequired,
+      description: PropTypes.string,
+      date: PropTypes.string.isRequired
+    })
+  ).isRequired,
+  status: PropTypes.string.isRequired
 };
 
 export default connect(state => ({
   title: state.title,
-  totalTodos: state.totalTodos
+  todos: state.todos,
+  status: state.status
 }))(HeaderComponent);

@@ -2,47 +2,33 @@ import * as moment from 'moment';
 
 import STATUS from './status';
 
-const countTotalTodos = (state) => {
-  if (state.status === STATUS.completed) {
-    return state.todos.filter(todo => todo.status === STATUS.completed).length;
-  }
-  return state.todos.filter(todo => todo.status === STATUS.pending).length;
-};
-
 const appReducer = (state, action) => {
   let newTodos = [];
   let filteredTodos;
   let newTodo = {};
   let idx;
-  let totalTodos;
   let title;
   switch (action.type) {
     case 'FILTER_STATUS':
       if (state.status === STATUS.completed) {
-        totalTodos = state.todos.filter(todo => todo.status === STATUS.pending).length;
         title = 'Pending TODOS';
         return {
           ...state,
           status: STATUS.pending,
-          totalTodos,
           title
         };
       }
-      totalTodos = state.todos.filter(todo => todo.status === STATUS.completed).length;
       title = 'Completed TODOS';
       return {
         ...state,
         status: STATUS.completed,
-        totalTodos,
         title
       };
     case 'REMOVE_TODO':
       newTodos = state.todos.filter(todo => todo.id !== action.id);
-      totalTodos = countTotalTodos(state);
       return {
         ...state,
-        todos: newTodos,
-        totalTodos
+        todos: newTodos
       };
     case 'COMPLETED_TODO':
       idx = state.todos.findIndex(todo => todo.id === action.id);
@@ -53,11 +39,9 @@ const appReducer = (state, action) => {
         newTodo,
         ...state.todos.slice(idx + 1)
       ];
-      totalTodos = countTotalTodos(state);
       return {
         ...state,
-        todos: newTodos,
-        totalTodos
+        todos: newTodos
       };
     case 'PENDING_TODO':
       idx = state.todos.findIndex(todo => todo.id === action.id);
@@ -68,11 +52,9 @@ const appReducer = (state, action) => {
         newTodo,
         ...state.todos.slice(idx + 1)
       ];
-      totalTodos = countTotalTodos(state);
       return {
         ...state,
-        todos: newTodos,
-        totalTodos
+        todos: newTodos
       };
     case 'EDIT_TODO':
       idx = state.todos.findIndex(todo => todo.id === action.id);
@@ -114,12 +96,10 @@ const appReducer = (state, action) => {
         ...state.todos,
         newTodo
       ];
-      totalTodos = newTodos.filter(todo => todo.status === state.status).length;
       return {
         ...state,
         todos: newTodos,
-        todoId: state.todoId + 1,
-        totalTodos
+        todoId: state.todoId + 1
       };
     case 'SEARCH_TODO':
       if (!action.value) {

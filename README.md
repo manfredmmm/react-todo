@@ -1,4 +1,11 @@
-### Doing a todo app with:
+# MVP - TODO app using (just for test a few things):
 * React
+* Redux
+* React router DOM
 * Webpack
-* Yarn + npm
+* Yarn
+* PostCSS
+* CSS Modules
+
+## Demo live at:
+[manfredmmm-react-todo.surge.sh](http://manfredmmm-react-todo.surge.sh)

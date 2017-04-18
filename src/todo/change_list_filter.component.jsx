@@ -11,7 +11,7 @@ const filterStatusCreator = () => ({
 
 const ChangeListFilter = ({ status, changeStatusFilter }) => (
   <button className={styles.button} onClick={() => changeStatusFilter()}>
-    See {status === STATUS.completed ? 'completed' : 'pending'} todos
+    See {status === STATUS.completed ? 'pending' : 'completed'} todos
   </button>
 );
 

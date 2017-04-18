@@ -1,0 +1,19 @@
+@import "./../colors.css";
+
+.title {
+  margin: 0;
+}
+
+.body {
+  padding: 10px;
+  color: var(--black);
+}
+
+.link {
+  color: var(--black);
+  text-decoration: none;
+}
+
+.link i {
+  margin-right: 5px;
+}

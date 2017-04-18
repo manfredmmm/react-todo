@@ -1,6 +1,8 @@
+@import "./../colors.css";
+
 .todo {
   padding: 20px;
-  background-color: #f0f0f0;
+  background-color: var(--silver);
 }
 
 .todo:first-child {
@@ -8,5 +10,5 @@
 }
 
 .todo:nth-child(2n) {
-  background-color: #e3e3e3;
+  background-color: var(--gray);
 }

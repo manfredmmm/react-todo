@@ -1,0 +1,11 @@
+@import "./../colors.css";
+
+.input {
+  width: 355px;
+  margin: 10px 10px 0 10px;
+  border-radius: 5px;
+  padding: 5px 3px;
+  outline: none;
+  box-sizing: border-box;
+  border: 2px solid var(--gray);
+}

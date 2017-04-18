@@ -2,8 +2,9 @@
 
 .header {
   padding: 5px 0;
-  background-color: var(--nickel);
+  background-color: var(--pink);
 }
 .title {
   padding-left: 20px;
+  color: var(--black);
 }

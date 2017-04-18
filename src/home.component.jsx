@@ -9,8 +9,8 @@ import SearchTodo from './todo/search_todo.component';
 const Home = () => (
   <div>
     <HeaderComponent />
-    <SearchTodo />
     <TodoForm />
+    <SearchTodo />
     <TodoList />
     <ChangeListFilter />
   </div>

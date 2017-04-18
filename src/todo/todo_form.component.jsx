@@ -1,6 +1,8 @@
 import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
 
+import styles from './inputs.css';
+
 const addCreator = value => ({
   type: 'ADD_TODO',
   value
@@ -24,15 +26,16 @@ class TodoForm extends Component {
   render() {
     return (
       <form onSubmit={event => this._handleSubmit(event)}>
-        <label htmlFor="todoFormInput">New todo:
-          <input
-            type="text" id="todoFormInput" required
-            autoComplete="off" placeholder="Type todo name"
-            value={this.state.value}
-            onChange={event => this._handleChange(event)}
-          />
-        </label>
-        <input type="submit" value="Create" />
+        <input
+          type="text"
+          id="todoFormInput"
+          required
+          autoComplete="off"
+          placeholder="Create new TODO"
+          value={this.state.value}
+          onChange={event => this._handleChange(event)}
+          className={styles.input}
+        />
       </form>
     );
   }

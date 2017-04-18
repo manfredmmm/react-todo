@@ -1,6 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 
+import styles from './inputs.css';
+
 const searchCreator = value => ({
   type: 'SEARCH_TODO',
   value
@@ -24,27 +26,19 @@ class SearchTodo extends Component {
     this.props.searchTodo(event.target.value);
   }
 
-  _cleanSearch() {
-    this.props.searchTodo('');
-    this.setState({ search: '' });
-  }
-
   render() {
     return (
       <div>
         <form onSubmit={event => this._handleSubmit(event)}>
-          <label htmlFor="searchInput">
-            Search by name:
-            <input
-              id="searchInput"
-              type="text"
-              placeholder="Search todo"
-              autoComplete="off"
-              value={this.state.search}
-              onChange={event => this._handleChange(event)}
-            />
-          </label>
-          <button onClick={() => this._cleanSearch()}>X</button>
+          <input
+            id="searchInput"
+            type="text"
+            placeholder="Search TODO by name"
+            autoComplete="off"
+            value={this.state.search}
+            onChange={event => this._handleChange(event)}
+            className={styles.input}
+          />
         </form>
       </div>
     );

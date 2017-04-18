@@ -1,5 +1,9 @@
+@import "../colors.css";
+
 .button {
   position: fixed;
   bottom: 0;
   width: 375px;
+  color: var(--black);
+  padding: 10px 0;
 }

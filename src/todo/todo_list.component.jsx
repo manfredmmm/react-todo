@@ -16,7 +16,7 @@ const TodoList = ({ todos, status }) => {
     ));
   return (
     <div>
-      <ul>{todoNode}</ul>
+      <ul className={styles.list}>{todoNode}</ul>
     </div>
   );
 };

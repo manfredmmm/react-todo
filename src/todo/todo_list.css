@@ -1,5 +1,9 @@
 @import "./../colors.css";
 
+.list {
+  margin-bottom: 38px;
+}
+
 .todo {
   padding: 20px;
   background-color: var(--silver);

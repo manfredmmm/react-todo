@@ -1,6 +1,8 @@
+@import "../colors.css";
+
 .header {
   padding: 5px 0;
-  background-color: grey;
+  background-color: var(--nickel);
 }
 .title {
   padding-left: 20px;

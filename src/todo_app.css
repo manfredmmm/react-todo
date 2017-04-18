@@ -1,0 +1,10 @@
+@import "./colors.css";
+
+.body {
+  position: relative;
+  width: 100vw;
+  max-width: 375px;
+  height: 100vh;
+  margin: 0 auto;
+  background-color: var(--cyan);
+}

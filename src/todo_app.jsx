@@ -5,11 +5,12 @@ import { HashRouter, Route } from 'react-router-dom';
 import store from './store';
 import Home from './home.component';
 import TodoView from './todo/todo_view.component';
+import styles from './todo_app.css';
 
 const TodoApp = () => (
   <Provider store={store}>
     <HashRouter>
-      <div>
+      <div className={styles.body}>
         <Route exact path="/" component={Home} />
         <Route
           path="/todos/:todoId"

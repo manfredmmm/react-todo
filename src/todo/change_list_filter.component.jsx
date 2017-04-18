@@ -3,12 +3,14 @@ import { connect } from 'react-redux';
 
 import STATUS from './../status';
 
+import styles from './change_list_filter.css';
+
 const filterStatusCreator = () => ({
   type: 'FILTER_STATUS'
 });
 
 const ChangeListFilter = ({ status, changeStatusFilter }) => (
-  <button onClick={() => changeStatusFilter()}>
+  <button className={styles.button} onClick={() => changeStatusFilter()}>
     See {status === STATUS.completed ? 'completed' : 'pending'} todos
   </button>
 );
